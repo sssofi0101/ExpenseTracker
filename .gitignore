@@ -55,3 +55,14 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/.idea
+
+# JetBrains Rider / IntelliJ
+.idea/
+
+# Visual Studio
+.vs/
+
+# Build results
+bin/
+obj/
