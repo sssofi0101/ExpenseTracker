@@ -66,3 +66,5 @@ nunit-*.xml
 # Build results
 bin/
 obj/
+
+*.sln.DotSettings.user

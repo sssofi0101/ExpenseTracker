@@ -1,6 +1,38 @@
 @ExpenseTracker.API_HostAddress = http://localhost:5139
+@expenseId = 00000000-0000-0000-0000-000000000000
 
-GET {{ExpenseTracker.API_HostAddress}}/weatherforecast/
+POST {{ExpenseTracker.API_HostAddress}}/api/expenses
+Content-Type: application/json
+
+{
+  "description": "Groceries",
+  "amount": 42.50,
+  "date": "2026-08-28T12:00:00Z",
+  "category": "Food"
+}
+
+###
+
+GET {{ExpenseTracker.API_HostAddress}}/api/expenses
 Accept: application/json
 
 ###
+
+GET {{ExpenseTracker.API_HostAddress}}/api/expenses/{{expenseId}}
+Accept: application/json
+
+###
+
+PUT {{ExpenseTracker.API_HostAddress}}/api/expenses/{{expenseId}}
+Content-Type: application/json
+
+{
+  "description": "Weekly groceries",
+  "amount": 48.75,
+  "date": "2026-08-28T12:00:00Z",
+  "category": "Food"
+}
+
+###
+
+DELETE {{ExpenseTracker.API_HostAddress}}/api/expenses/{{expenseId}}
