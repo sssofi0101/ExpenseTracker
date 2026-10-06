@@ -14,7 +14,7 @@ public sealed class MonthlyBudgetTests
         decimal totalExpenses,
         bool expected)
     {
-        var budget = new MonthlyBudget(budgetAmount);
+        var budget = new MonthlyBudget(2026, 10, budgetAmount);
 
         var result = budget.IsExceededBy(totalExpenses);
 
@@ -25,15 +25,27 @@ public sealed class MonthlyBudgetTests
     public void Constructor_WhenAmountIsNegative_ThrowsArgumentOutOfRangeException()
     {
         var exception = Assert.Throws<ArgumentOutOfRangeException>(
-            () => new MonthlyBudget(-0.01m));
+            () => new MonthlyBudget(2026, 10, -0.01m));
 
         Assert.Equal("amount", exception.ParamName);
+    }
+
+    [Theory]
+    [InlineData(1979)]
+    [InlineData(2101)]
+    public void Constructor_WhenYearIsOutsideSupportedRange_ThrowsArgumentOutOfRangeException(
+        int year)
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(
+            () => new MonthlyBudget(year, 10, 1_000m));
+
+        Assert.Equal("year", exception.ParamName);
     }
 
     [Fact]
     public void IsExceededBy_WhenTotalExpensesAreNegative_ThrowsArgumentOutOfRangeException()
     {
-        var budget = new MonthlyBudget(1_000m);
+        var budget = new MonthlyBudget(2026, 10, 1_000m);
 
         var exception = Assert.Throws<ArgumentOutOfRangeException>(
             () => budget.IsExceededBy(-0.01m));
