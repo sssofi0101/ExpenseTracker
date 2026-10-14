@@ -8,7 +8,8 @@ public sealed class ExpenseRequestDto
     [MaxLength(500)]
     public string Description { get; init; } = string.Empty;
 
-    [Range(typeof(decimal), "0.01", "79228162514264337593543950335")]
+    [Range(typeof(decimal), "0.01", "79228162514264337593543950335",
+    ParseLimitsInInvariantCulture = true)]
     public decimal Amount { get; init; }
 
     public DateTime Date { get; init; }
