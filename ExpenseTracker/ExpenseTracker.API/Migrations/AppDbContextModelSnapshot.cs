@@ -46,6 +46,29 @@ namespace ExpenseTracker.API.Migrations
 
                     b.ToTable("Expenses");
                 });
+
+            modelBuilder.Entity("ExpenseTracker.API.Domain.Entities.MonthlyBudget", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Year", "Month")
+                        .IsUnique();
+
+                    b.ToTable("MonthlyBudgets");
+                });
 #pragma warning restore 612, 618
         }
     }
