@@ -1,0 +1,37 @@
+
+name: ExpenseTracker CI
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+
+    defaults:
+      run:
+        working-directory: ExpenseTracker
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore ExpenseTracker.sln
+
+      - name: Build
+        run: dotnet build ExpenseTracker.sln --no-restore
+
+      - name: Test
+        run: dotnet test ExpenseTracker.sln --no-build
