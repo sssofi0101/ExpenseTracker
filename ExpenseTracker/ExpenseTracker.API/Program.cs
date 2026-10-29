@@ -1,4 +1,5 @@
 using ExpenseTracker.API.Infrastructure.Data;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<AppDbContext>(
+        name: "postgresql",
+        tags: new [] { "ready" } );
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +30,18 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+app.MapHealthChecks("/health/live",
+    new HealthCheckOptions()
+    {
+        Predicate = _ => true,
+    });
+
+app.MapHealthChecks("/health/ready", 
+    new HealthCheckOptions()
+    {
+        Predicate = check => check.Tags.Contains("ready"),
+    });
 
 using (var scope = app.Services.CreateScope())
 {
