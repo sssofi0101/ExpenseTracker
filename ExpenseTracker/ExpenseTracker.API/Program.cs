@@ -34,7 +34,7 @@ app.MapControllers();
 app.MapHealthChecks("/health/live",
     new HealthCheckOptions()
     {
-        Predicate = _ => true,
+        Predicate = _ => false,
     });
 
 app.MapHealthChecks("/health/ready", 
