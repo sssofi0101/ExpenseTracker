@@ -43,8 +43,11 @@ app.MapHealthChecks("/health/ready",
         Predicate = check => check.Tags.Contains("ready"),
     });
 
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsEnvironment("Testing") ||
+    app.Configuration.GetValue<bool>("Database:ApplyMigrationsOnStartup"))
 {
+    using var scope = app.Services.CreateScope();
+
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
